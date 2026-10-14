@@ -1,5 +1,7 @@
 # Around the U.S. | Authentication & Authorization 🔐
 
+🚀 [Live Demo](https://adrielfunini16.github.io/web_project_around_auth/)
+
 A web application built with **React and JavaScript**, featuring front-end authentication and authorization, profile management, image publishing, and interactive cards.
 
 This project is part of **Sprint 17 of TripleTen's Full-Stack Web Development Bootcamp**. It builds on *Around the U.S.*, initially developed with JavaScript and later migrated to React.
