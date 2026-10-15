@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../Header/Header";
+import useFormValidation from "../../hooks/useFormValidation";
 
 export default function Register({ handleRegister }) {
   const [data, setData] = useState({ email: "", password: "" });
+  const { errors, isFormValid, handleInputValidity } = useFormValidation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -11,11 +13,16 @@ export default function Register({ handleRegister }) {
       ...prevData,
       [name]: value,
     }));
+
+    handleInputValidity(e);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleRegister(data);
+
+    if (isFormValid) {
+      handleRegister(data);
+    }
   };
 
   return (
@@ -30,26 +37,41 @@ export default function Register({ handleRegister }) {
           <h3 className="auth__title">Inscrever-se</h3>
           <form className="auth__form" onSubmit={handleSubmit}>
             <div className="auth__fields">
-              <input
-                className="auth__input"
-                type="email"
-                name="email"
-                value={data.email}
-                onChange={handleChange}
-                required
-                placeholder="E-mail"
-              />
-              <input
-                className="auth__input"
-                type="password"
-                name="password"
-                value={data.password}
-                onChange={handleChange}
-                required
-                placeholder="Senha"
-              />
+              <label className="auth__field_label">
+                <input
+                  className={`auth__input ${errors.email ? "auth__input_type_error" : ""}`}
+                  type="email"
+                  name="email"
+                  value={data.email}
+                  onChange={handleChange}
+                  required
+                  placeholder="E-mail"
+                />
+                <span className="auth__error" id="login-email-error">
+                  {errors["email"]}
+                </span>
+              </label>
+              <label className="auth__field_label">
+                <input
+                  className={`auth__input ${errors.password ? "auth__input_type_error" : ""}`}
+                  type="password"
+                  name="password"
+                  value={data.password}
+                  onChange={handleChange}
+                  minLength={3}
+                  required
+                  placeholder="Senha"
+                />
+                <span className="auth__error" id="login-password-error">
+                  {errors["password"]}
+                </span>
+              </label>
             </div>
-            <button className="auth__button" type="submit">
+            <button
+              className="auth__button"
+              type="submit"
+              disabled={!isFormValid}
+            >
               Inscrever-se
             </button>
           </form>

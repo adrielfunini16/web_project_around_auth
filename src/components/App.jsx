@@ -49,14 +49,9 @@ function App() {
       })
       .then((res) => {
         handleAuthSuccess(res);
-        return api.getInitialCards();
-      })
-      .then((cards) => {
-        setCards(cards);
       })
       .catch((err) => {
         console.error(err.message);
-
         if (err.source === "checkToken") {
           handleLogout();
         }
@@ -80,10 +75,6 @@ function App() {
     checkToken(token)
       .then((res) => {
         handleAuthSuccess(res);
-        return api.getInitialCards();
-      })
-      .then((cards) => {
-        setCards(cards);
       })
       .catch((err) => {
         console.error(err.message);
@@ -128,12 +119,16 @@ function App() {
   }
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      return;
+    }
     (async () => {
-      await api.getUserInfo().then((data) => {
-        setCurrentUser(data);
+      await api.getAppInfo().then(([userData, cardsData]) => {
+        setCurrentUser(userData);
+        setCards(cardsData);
       });
     })();
-  }, []);
+  }, [isLoggedIn]);
 
   const handleUpdateUser = (data) => {
     (async () => {
