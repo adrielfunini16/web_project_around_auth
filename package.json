@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "vite --open",
     "build": "vite build",
+    "build:vm": "vite build --mode vm",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "npm run build && scp -r -i ~/.ssh/google_cloud_ed25519 ./dist/* adrielfunini16@around.clux.com:~/web_project_around_auth/"
+    "deploy": "npm run build:vm && scp -r -i ~/.ssh/google_cloud_ed25519 ./dist/* adrielfunini16@around.clux.com:~/web_project_around_auth/"
   },
   "dependencies": {
     "react": "^19.2.8",
